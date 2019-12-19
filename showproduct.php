@@ -1,13 +1,13 @@
 <?php
     session_start();
-    if(isset($_GET['carType'])){
-        $cat=$_GET['carType'];
+    if(isset($_GET['pid'])){
+        $pid=$_GET['pid'];
     }
     else{
         header("location:index.php");
     }
     include("connect.php");
-    $sql ="SELECT * FROM product WHERE carType=$cat ";
+    $sql ="SELECT * FROM product WHERE id=$pid";
     $result = $conn->query($sql);
     if(!$result){
         echo "Error:".$conn->error;
@@ -27,77 +27,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>เข้าสู่ระบบบ</title>
+    <title>TingTong Shop</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
 </head>
 <body>
-    <?php
-        include_once("connect.php");
-        if(isset($_POST['submit'])){
-
-            $username = $conn-> real_escape_string ($_POST['username']);
-            $password = md5($conn->real_escape_string($_POST['password']));
-
-            $sql = "SELECT * FROM customer WHERE username ='$username' AND password ='$password'";
-
-
-            $result = $conn->query($sql);
-
-            if($result->num_rows>0){
-        
-                $row=$result->fetch_array();   
-                $_SESSION['id']=$row['id'];
-                $_SESSION["name"]=$row['firstname'] . " " . $row['lastname'];
-                $_SESSION['username']=$row['username'];
-
-                header("location: index.php");
-
-
-                
-            }
-        }
-    ?>
-    <div class="container">
-        <div class="row">
-            <form action="" method="post">
-                <div class="col-md-8 col-md-offset-2" style="margin-top:50px">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading text-center">กรุณาเข้าสู่ระบบ</div>
-                        <div class="panel-body">
-                            <div class="form-group row">
-                                <label for="username" class="col-md-3">Username</label>
-                                <div class="col-md-9">
-                                    <input type="text" name="username" class="form-control">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="username" class="col-md-3">Password</label>
-                                <div class="col-md-9">
-                                    <input type="password" name="password" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="panel-footer">
-                            <button type=submit class="btn btn-success btn-block" name="submit">Login</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
     <script src="js/jquery-3.4.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script>
-        $(document).ready(function(){
-        });
-        $(".lnkdelete").click(function(){
-            if(confirm("Confirm Delete?")){
-                return true;
-            }
-            else{
-            return false;
-            }
-        });
-    </script>
+    <div class="container">
+        <div class="row">
+            <h2 class="text-center">Product Name</h2>
+            <div class="col-md-6 col-sm-12">
+                <div class="thumbnail">
+                    <img src="img/product/<?php echo $prd->picture ?>" alt="">
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <p>Description: <?php echo $prd->description ?> </p>
+                <p>Price: <?php echo $prd->price ?> Baht</p>
+                <p>Stock: <?php echo $prd->unitInStock ?> </p>
+                <p>
+                    <a href="#" class="btn btn-primary">Buy Now</a>
+                    <a href="#" class="btn btn-info">Add To Cart</a>
+                </p>
+                        
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
